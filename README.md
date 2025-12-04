@@ -43,7 +43,7 @@ chore: 설정/패키지
 ```
 ---
 
-## 🧩 실행방법
+## 🌍 Start Dev Server
 
 ```bash
 pnpm install # or npm install
