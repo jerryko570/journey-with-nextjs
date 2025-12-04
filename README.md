@@ -40,3 +40,12 @@ docs: 문서 작성/수정
 style: 스타일/포맷
 refactor: 리팩토링
 chore: 설정/패키지
+
+---
+
+## 🧩 실행방법
+
+```bash
+pnpm install # or npm install
+npm run dev
+```
