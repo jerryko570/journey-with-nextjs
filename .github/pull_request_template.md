@@ -1,0 +1,47 @@
+# ✨ Pull Request Overview
+
+## 🔥 목적(What & Why)
+> 이 PR이 필요한 이유를 간단히 설명해주세요. (기능 추가/버그 수정/리팩토링/문서 작업 등)
+
+예)
+- 로그인 버튼 스타일 정리 및 전역 컴포넌트화
+- API 응답 처리 로직 개선으로 오류 방지
+
+---
+
+## 📌 변경 사항 (Changes)
+- 주요 변경 내용 bullet list로 작성
+- UI/Logic/API/폴더 구조/리팩토링 범위 등
+
+예)
+- Tailwind Button Component 생성 및 스타일 정의
+- `btn-primary`, `btn-sm` 등 variants/size 설정
+- `/components/ui/Button` 디렉토리 신규 생성
+
+---
+
+## 🧪 테스트 및 확인 사항(Test Checklist)
+- [ ] 기능 정상 동작 확인
+- [ ] 크로스 브라우징 확인 (Chrome/Safari/Edge 등)
+- [ ] UI 깨짐 없는지 확인
+- [ ] 오류/경고 로그 없는지 확인
+- [ ] 영향받는 페이지/기능 연계 확인
+- [ ] 로직 변경 시 기존 기능에 영향 없는지 확인
+
+> Optional: 테스트 방법을 간단히 적어도 좋아요
+
+---
+
+## 🖼 스크린샷 / 캡쳐(Optional)
+UI/UX 변경 사항이 있다면 첨부해주세요  
+_(Drag & Drop)_
+
+---
+
+## 🔗 관련 이슈
+Closes # (or Related to #)
+
+---
+
+## 💬 기타 코멘트(Notes)
+리뷰어가 참고하면 좋을 내용, 고민 포인트, 추후 개선 방향 등 자유롭게
