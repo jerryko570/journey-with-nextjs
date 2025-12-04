@@ -11,12 +11,7 @@
 
 ## 📌 변경 사항 (Changes)
 - 주요 변경 내용 bullet list로 작성
-- UI/Logic/API/폴더 구조/리팩토링 범위 등
 
-예)
-- Tailwind Button Component 생성 및 스타일 정의
-- `btn-primary`, `btn-sm` 등 variants/size 설정
-- `/components/ui/Button` 디렉토리 신규 생성
 
 ---
 
@@ -27,8 +22,6 @@
 - [ ] 오류/경고 로그 없는지 확인
 - [ ] 영향받는 페이지/기능 연계 확인
 - [ ] 로직 변경 시 기존 기능에 영향 없는지 확인
-
-> Optional: 테스트 방법을 간단히 적어도 좋아요
 
 ---
 
