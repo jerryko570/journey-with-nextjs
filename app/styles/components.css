@@ -36,10 +36,6 @@
         color: var(--white)
     }
 
-    .btn-disable:hover {
-        background-color: var(--gray-40);
-    }
-
     /* outline */
     .btn-outline {
         background-color: var(--white);
@@ -52,7 +48,7 @@
     .btn-sm {
         padding: 8px 12px;
         font-size: var(--text-body2);
-        font-weight: var(--weight-body2);
+        font-weight: var(--weight-h1);
         letter-spacing: var(--tracking-body2);
     }
 
@@ -60,7 +56,7 @@
     .btn-md {
         padding: 10px 20px;
         font-size: var(--text-body1);
-        font-weight: var(--weight-body1);
+        font-weight: var(--weight-h1);
         letter-spacing: var(--tracking-body1);
         line-height: 1.6;
     }
@@ -69,7 +65,7 @@
     .btn-lg {
         padding: 14px 36px;
         font-size: var(--text-body1);
-        font-weight: var(--weight-body1);
+        font-weight: var(--weight-h1);
         letter-spacing: var(--tracking-body1);
         line-height: 1.6;
     }
