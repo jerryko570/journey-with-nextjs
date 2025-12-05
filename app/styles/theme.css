@@ -1,81 +1,95 @@
 /*
-- theme.css는 디자인(색상, 폰트)를 정의하는 역할을 한다.
+- 디자인(색상, 폰트)를 정의하는 코드
 */
 
 :root {
-  /* 배경 / 글자색 */
-  --background: #ffffff;
-  --foreground: #000000;
+  /* ================== 간격(Spacing) ================== */
+  --space-mobile: 20px; /* 모바일 기본 간격 */
+  --space-tablet: 32px; /* 태블릿 기본 간격 */
+  --space-desktop: 40px; /* 데스크톱 기본 간격 */
+  
+  /* ================== 배경색 / 글자색 ================== */
+  --background: #ffffff; /* 배경색: 흰색 */
+  --foreground: #000000; /* 글자색: 검정 */
 
-  /* primary */
-  --primary-50: #5900D6;
-  --primary-40: #6A00FF;
+  /* ================== 주요 색상(Primary) ================== */
+  --primary-50: #5900D6; /* hover */
+  --primary-40: #6A00FF; /* main-color */
   --primary-30: #A86AFF;
   --primary-20: #DBC1FF;
   --primary-10: #F2E8FF;
+  --primary-5: #faf6ff; 
 
-  /* status */
-  --blue-20: #0080ff;
-  --blue-10: #cce6ff;
-  --green-20: #20a81e;
-  --green-10: #d4f7d4;
-  --kakao: #fee500;
+  /* ================== 상태 색상(Status) ================== */
+  --blue-20: #0080ff; /* info */
+  --blue-10: #cce6ff; 
+  --red-20: #EA3C12; /*error */
+  --red-10: #FF947B; 
+  --green-20: #20a81e; /* success */
+  --green-10: #d4f7d4; 
+  --kakao: #fee500; /* kakao */
 
-  /* grayscale */
-  --black: #000000;
+  /* ================== 회색조(Grayscale) ================== */
+  --black: #000000; 
   --gray-50: #7d7986;
   --gray-40: #a4a1aa;
   --gray-30: #cbc9cf;
   --gray-20: #e5e4e7;
   --gray-10: #f2f2f3;
-  --gray-5: #fafafa;
-  --white: #ffffff;
+  --gray-5: #fafafa; 
+  --white: #ffffff; 
 
-  /* font-sizes */
-  --text-h1: 28px;
-  --text-h2: 24px;
-  --text-h3: 20px;
-  --text-h4: 18px;
-  --text-body1: 16px;
-  --text-body2: 14px;
-  --text-caption: 12px;
+  /* ================== 글자 크기(Font Sizes) ================== */
+  --text-h1: 28px; /* 제목 1 */
+  --text-h2: 24px; /* 제목 2 */
+  --text-h3: 20px; /* 제목 3 */
+  --text-h4: 18px; /* 제목 4 */
+  --text-body1: 16px; /* 본문 1 (기본) */
+  --text-body2: 14px; /* 본문 2 (작게) */
+  --text-caption: 12px; /* 캡션 (아주 작게) */
 
-  /* letter-spacing */
-  --tracking-h1: -0.5px;
-  --tracking-h2: -0.3px;
-  --tracking-h3: -0.2px;
-  --tracking-h4: -0.1px;
-  --tracking-body1: 0px;
-  --tracking-body2: 0px;
-  --tracking-caption: 0px;
+  /* ================== 자간(Letter Spacing) ================== */
+  --tracking-h1: -0.5px; /* 제목 1 자간 */
+  --tracking-h2: -0.3px; /* 제목 2 자간 */
+  --tracking-h3: -0.2px; /* 제목 3 자간 */
+  --tracking-h4: -0.1px; /* 제목 4 자간 */
+  --tracking-body1: 0px; /* 본문 1 자간 */
+  --tracking-body2: 0px; /* 본문 2 자간 */
+  --tracking-caption: 0px; /* 캡션 자간 */
 
-  /* font-weights */
-  --weight-h1: 700;
-  --weight-h2: 600;
-  --weight-h3: 600;
-  --weight-h4: 500;
-  --weight-body1: 400;
-  --weight-body2: 400;
-  --weight-caption: 400;
+  /* ================== 글자 굵기(Font Weights) ================== */
+  --weight-h1: 700; /* 제목 1: Bold */
+  --weight-h2: 600; /* 제목 2: Semi-Bold */
+  --weight-h3: 600; /* 제목 3: Semi-Bold */
+  --weight-h4: 500; /* 제목 4: Medium */
+  --weight-body1: 400; /* 본문 1: Regular */
+  --weight-body2: 400; /* 본문 2: Regular */
+  --weight-caption: 400; /* 캡션: Regular */
 
-   /* font-family */
-  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-title: "Montserrat", sans-serif;
+  /* ================== 둥근 모서리(Border Radius) ================== */
+  --radius-sm: 4px; 
+  --radius-md: 6px; 
+  --radius-lg: 8px; 
+
+  /* ================== 폰트 종류(Font Family) ================== */
+  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; /* 기본 폰트 */
+  --font-title: "Montserrat", sans-serif; /* 제목용 폰트 */
 }
 
-
-
-/* Tailwind v4 테마 매핑 */
+/* ================== Tailwind v4 테마 매핑 ================== */
 @theme inline {
-  /* colors */
+  /* 색상 매핑 */
   --color-primary-50: var(--primary-50);
   --color-primary-40: var(--primary-40);
   --color-primary-30: var(--primary-30);
   --color-primary-20: var(--primary-20);
   --color-primary-10: var(--primary-10);
+  --color-primary-5: var(--primary-5);
 
   --color-blue-20: var(--blue-20);
   --color-blue-10: var(--blue-10);
+  --color-red-20: var(--red-20);
+  --color-red-10: var(--red-10);
   --color-green-20: var(--green-20);
   --color-green-10: var(--green-10);
   --color-kakao: var(--kakao);
@@ -92,7 +106,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* font-sizes */
+  /* 글자 크기 매핑 */
   --text-h1: var(--text-h1);
   --text-h2: var(--text-h2);
   --text-h3: var(--text-h3);
@@ -101,7 +115,7 @@
   --text-body2: var(--text-body2);
   --text-caption: var(--text-caption);
 
-  /* letter-spacing */
+  /* 자간 매핑 */
   --tracking-h1: var(--tracking-h1);
   --tracking-h2: var(--tracking-h2);
   --tracking-h3: var(--tracking-h3);
@@ -110,7 +124,7 @@
   --tracking-body2: var(--tracking-body2);
   --tracking-caption: var(--tracking-caption);
 
-  /* font-weights */
+  /* 글자 굵기 매핑 */
   --weight-h1: var(--weight-h1);
   --weight-h2: var(--weight-h2);
   --weight-h3: var(--weight-h3);
@@ -119,16 +133,20 @@
   --weight-body2: var(--weight-body2);
   --weight-caption: var(--weight-caption);
 
-  /* font-family */
+  /* 폰트 종류 매핑 */
   --font-sans: var(--font-sans);
   --font-title: var(--font-title);
 
+  /* 둥근 모서리 매핑 */
+  --radius-sm: var(--radius-sm); 
+  --radius-md: var(--radius-md); 
+  --radius-lg: var(--radius-lg); 
 }
 
-/* 다크모드 */
+/* ================== 다크모드 ================== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a0a0a; /* 다크모드 배경색: 거의 검정 */
+    --foreground: #ededed; /* 다크모드 글자색: 연한 회색 */
   }
 }
