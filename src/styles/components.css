@@ -1,0 +1,159 @@
+/*
+- components.css : 재사용 UI 컴포넌트 스타일 정의
+*/
+
+@layer components {
+    /* ================== 버튼 ================== */
+    .btn { 
+        @apply inline-flex items-center justify-center w-full
+               px-6 py-3.5 rounded-lg cursor-pointer
+               transition-all duration-200;
+        font-size: var(--text-body1);
+        font-weight: var(--weight-body1);
+        letter-spacing: var(--tracking-body1);
+    }
+
+    .btn-primary { 
+        background-color: var(--primary-40);
+        color: var(--white);
+    }
+
+    .btn-primary:hover { 
+        background-color: var(--primary-50);
+    }
+
+    .btn-disabled { 
+        background-color: var(--gray-10);
+        color: var(--gray-60);
+        @apply cursor-not-allowed pointer-events-none;
+    }
+
+    .btn-outline { 
+        background-color: var(--white);
+        color: var(--primary-40);
+        border: 1px solid var(--primary-40);
+    }
+
+    .btn-outline:hover { 
+        background-color: var(--primary-10);
+    }
+
+    .btn-sm { 
+        @apply px-3 py-2;
+        font-size: var(--text-body2);
+    }
+
+    .btn-md { 
+        @apply px-5 py-2.5;
+    }
+
+    .btn-lg { 
+        @apply px-9 py-3.5;
+    }
+
+    /* ================== 인풋 ================== */
+    .input {
+        @apply w-full px-5 py-3.5 rounded-md
+               transition-colors duration-200
+               focus:outline-none;
+        background-color: var(--white);
+        border: 1px solid var(--gray-30);
+        font-size: var(--text-body1);
+        font-weight: var(--weight-body1);
+        letter-spacing: var(--tracking-body1);
+    }
+
+    .input:focus { 
+        border-color: var(--primary-40);
+    }
+
+    .input::placeholder { 
+        color: var(--gray-60);
+        @apply opacity-80;
+    }
+
+    .input:disabled { 
+        background-color: var(--gray-10);
+        @apply cursor-not-allowed pointer-events-none;
+    }
+
+    .input-error { 
+        border-color: var(--red-20);
+    }
+
+    .input-error:focus { 
+        border-color: var(--red-20);
+    }
+
+    .input-error::placeholder { 
+        color: var(--red-20);
+    }
+
+    /* ================== 드롭다운 ================== */
+    .dropdown-container {
+        @apply flex flex-col gap-3 rounded-lg;
+    }
+
+    .dropdown-select {
+        @apply w-full flex items-center justify-between
+               px-4 py-3.5 rounded-xl cursor-pointer
+               transition-colors duration-200;
+        background-color: var(--white);
+        border: 1px solid var(--gray-30);
+    }
+
+    .dropdown-select:hover {
+        background-color: var(--gray-5);
+    }
+
+    .dropdown-select-text {
+        color: var(--black);
+        font-size: var(--text-body1);
+        font-weight: var(--weight-body1);
+        letter-spacing: var(--tracking-body1);
+    }
+
+    .dropdown-menu {
+        @apply rounded-xl overflow-hidden;
+        background-color: var(--white);
+        border: 1px solid var(--gray-30);
+    }
+
+    .dropdown-items {
+        @apply px-4 py-3 rounded-md cursor-pointer
+               transition-colors duration-150;
+        border-bottom: 1px solid var(--gray-5);
+        color: var(--gray-60);
+    }
+
+    .dropdown-items:hover {
+        background-color: var(--gray-5);
+        font-weight: var(--weight-h3);
+        color: var(--gray-60);
+    }
+
+    .dropdown-items-selected {
+        background-color: var(--gray-10);
+        font-weight: var(--weight-h1);
+    }
+
+    .dropdown-icon {
+        @apply w-5 h-5 transition-transform duration-200;
+    }
+
+     /* 버튼이 disabled일 때 */
+  .dropdown-select:disabled {
+    background-color: var(--gray-10);
+    @apply cursor-not-allowed pointer-events-none;
+  }
+
+  /* 🔹 버튼이 disabled일 때 텍스트 색 */
+  .dropdown-select:disabled .dropdown-select-text {
+    @apply text-gray-60;
+  }
+
+  /* 🔹 버튼이 disabled일 때 아이콘 투명도 */
+  .dropdown-select:disabled .dropdown-icon {
+    @apply opacity-30;
+  }
+}

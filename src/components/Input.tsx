@@ -1,3 +1,5 @@
+"use client";
+
 type InputProps = {
   status?: "default" | "disabled" | "error";
   placeholder?: string;
