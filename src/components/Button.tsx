@@ -1,3 +1,5 @@
+"use client";
+
 type ButtonProps = {
   variant?: "primary" | "outline" | "disabled";
   size?: "sm" | "md" | "lg";
