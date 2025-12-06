@@ -31,6 +31,7 @@
 
   /* ================== 회색조(Grayscale) ================== */
   --black: #000000; 
+  --gray-60: #5e5c66;
   --gray-50: #7d7986;
   --gray-40: #a4a1aa;
   --gray-30: #cbc9cf;
@@ -95,6 +96,7 @@
   --color-kakao: var(--kakao);
 
   --color-black: var(--black);
+  --color-gray-60: var(--gray-60);
   --color-gray-50: var(--gray-50);
   --color-gray-40: var(--gray-40);
   --color-gray-30: var(--gray-30);
