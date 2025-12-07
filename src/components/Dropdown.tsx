@@ -1,3 +1,4 @@
+/* Dropdown 컴포넌트 */
 "use client";
 
 import Image from "next/image";
