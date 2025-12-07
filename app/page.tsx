@@ -1,3 +1,5 @@
+import Dropdown from "@/src/components/Dropdown";
+
 export default function Home() {
   return (
     <main className="space-y-3">
@@ -13,6 +15,7 @@ export default function Home() {
         <input className="input" disabled placeholder="입력하세요"></input>
         <input className="input input-error" placeholder="입력하세요"></input>
       </div>
+      <Dropdown status="default" />
     </main>
   );
 }
