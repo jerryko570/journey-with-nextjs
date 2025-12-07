@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Button from "../app/components/Button";
+import Button from "./Button";
 
 const meta: Meta<typeof Button> = {
   title: "UI/Button",
@@ -19,5 +19,8 @@ export const Primary: Story = {
     children: "버튼",
     variant: "primary",
     size: "md",
+  },
+  parameters: {
+    layout: "centered",
   },
 };
