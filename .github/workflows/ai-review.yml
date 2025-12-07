@@ -1,38 +1,20 @@
-name: AI Code Review (Free)
+name: AI Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
-  ai_review:
+  review:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      pull-requests: write
+    
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Run AI Code Review
-        uses: lobe-review/action@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          review-level: "balanced" # fast | strict | balanced
-          files: "src/**/*.{ts,tsx,js,jsx}"
-          rules: |
-            - Check readability and maintainability
-            - Suggest performance improvements
-            - Detect unused code or unnecessary conditions
-            - Review Tailwind naming consistency
-            - Storybook props/args structure review
-            - Warn about complex components needing split 
-            - Suggest accessibility improvements
-            - Detect potential bugs or edge cases
-
-      - name: Comment summary on PR
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          recreate: true
-          message: |
-            🤖 **AI Reviewer Summary**
-            코드리뷰가 완료되었습니다.
-            주요 개선점 & 피드백은 위 리뷰 코멘트를 확인하세요!
+      - uses: actions/checkout@v3
+      
+      - name: ChatGPT Review
+        uses: anc95/ChatGPT-CodeReview@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
