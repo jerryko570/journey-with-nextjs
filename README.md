@@ -24,7 +24,7 @@ Next.js 환경설정부터 API 구축, UI 컴포넌트 개발, 배포까지 학�
 - [x] ESLint + Prettier 적용
 - [x] Husky + Commitlint + lint-staged 자동화
 - [ ] Branch 전략 & PR Workflow 실습
-- [ ] UI 컴포넌트 시스템 만들기
+- [ ] Storybook 도입으로 일관적인 UI 컴포넌트 시스템 구축
 - [ ] API Route + Client Fetch 구조 설계
 - [ ] 데이터 상태관리 도입 (React Query 예정)
 - [ ] Vercel 배포
