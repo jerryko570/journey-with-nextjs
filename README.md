@@ -10,7 +10,7 @@ Next.js 환경설정부터 API 구축, UI 컴포넌트 개발, 배포까지 학�
 | Category | Tools |
 |--------|-------|
 | Framework | Next.js 14 / App Router |
-| Styling | TailwindCSS 4 |
+| Styling | TailwindCSS 4 | Storybook
 | Language | TypeScript |
 | Code Quality | ESLint / Prettier / Husky / Lint-Staged / Commitlint |
 | Version Control | Git + GitHub |
