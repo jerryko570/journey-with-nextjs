@@ -1,9 +1,16 @@
-/* Dropdown 컴포넌트 */
+/*
+ * Dropdown 컴포넌트
+ * items: Dropdown 아이템 목록 (기본값: ["item1", "item2", "item3"])
+ * placeholder: 기본 표시 텍스트 (기본값: "item을 선택해주세요")
+ * status: 활성화/비활성화 상태 (기본값: "default")
+ */
+
 "use client";
 
 import Image from "next/image";
 import ArrowCloseIcon from "../assets/arrow-close.svg";
 
+/* 드롭다운 Props 타입 정의 */
 type DropdownProps = {
   items?: string[];
   placeholder?: string;
@@ -19,6 +26,7 @@ export default function Dropdown({
 
   return (
     <div className="dropdown-container">
+      {/* 드롭다운 선택 버튼 */}
       <button
         disabled={isDisabled}
         className={`dropdown-select ${isDisabled ? "dropdown-select-disabled" : ""} gap-5`}
@@ -33,6 +41,7 @@ export default function Dropdown({
         />
       </button>
 
+      {/* 드롭다운 메뉴 */}
       <ul className="dropdown-menu">
         {items.map((item) => (
           <li key={item} className="dropdown-items">

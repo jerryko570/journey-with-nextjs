@@ -1,6 +1,10 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import "../app/globals.css";
 
+if (typeof window !== "undefined" && !window.process) {
+  window.process = { env: {} };
+}
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -9,7 +13,7 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    layout: "padded", // 여기로 이동! (centered 대신 padded 사용)
+    layout: "centered",
     a11y: {
       test: "todo",
     },

@@ -1,3 +1,5 @@
+import "./Input.css";
+
 type InputProps = {
   status?: "default" | "disabled" | "error";
   placeholder?: string;
