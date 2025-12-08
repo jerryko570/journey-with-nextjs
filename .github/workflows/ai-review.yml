@@ -20,19 +20,9 @@ jobs:
       - name: Get PR diff
         id: diff
         run: |
-          # base branch fetch
           git fetch origin ${{ github.base_ref }}
-          
-          # 파일 확장자별로 diff 가져오기
-          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- \
-            '*.js' '*.jsx' '*.ts' '*.tsx' \
-            '*.py' '*.java' '*.go' '*.rb' \
-            '*.css' '*.scss' '*.html' '*.vue')
-          
-          # 너무 길면 앞부분만 (Gemini API 제한)
+          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' '*.py' '*.java' '*.go' '*.rb' '*.css' '*.scss' '*.html' '*.vue')
           DIFF_LIMITED=$(echo "$DIFF" | head -c 15000)
-          
-          # EOF 구분자로 multiline 저장
           {
             echo "diff<<DIFF_EOF"
             echo "$DIFF_LIMITED"
@@ -49,7 +39,7 @@ jobs:
         run: |
           pip install -q google-generativeai
           
-          cat > review_script.py << 'PYTHON_SCRIPT'
+          cat > review_script.py << 'ENDOFPYTHON'
           import google.generativeai as genai
           import os
           import sys
@@ -64,14 +54,12 @@ jobs:
                   print("## 📝 변경사항 없음\n\n이 PR에는 리뷰할 코드 변경사항이 없습니다.")
                   sys.exit(0)
               
-              prompt = f"""당신은 시니어 소프트웨어 엔지니어입니다. 다음 Pull Request의 코드 변경사항을 리뷰해주세요.
+              prompt = """당신은 시니어 소프트웨어 엔지니어입니다. 다음 Pull Request의 코드 변경사항을 리뷰해주세요.
 
 코드 변경사항 (git diff):
-```diff
-{diff_text}
-```
+""" + diff_text + """
 
-다음 형식으로 **한국어**로 작성해주세요:
+다음 형식으로 한국어로 작성해주세요:
 
 ## 🔍 주요 발견사항
 - 버그 가능성이 있는 코드
@@ -95,7 +83,7 @@ jobs:
 점수: ⭐⭐⭐⭐⭐ (5점 만점)
 한 줄 코멘트
 
-**주의사항:**
+주의사항:
 - 사소한 스타일 지적은 생략
 - 중요한 이슈에 집중
 - 건설적인 피드백 제공
@@ -119,10 +107,10 @@ jobs:
               
           except Exception as e:
               error_msg = f"""## ⚠️ 리뷰 생성 실패
-              
+
 오류가 발생했습니다: {str(e)}
 
-**가능한 원인:**
+가능한 원인:
 - API 키 설정 오류
 - API 할당량 초과
 - 네트워크 문제
@@ -134,7 +122,7 @@ GitHub Settings에서 GEMINI_API_KEY를 확인해주세요."""
               
               print(error_msg)
               sys.exit(1)
-          PYTHON_SCRIPT
+          ENDOFPYTHON
           
           python review_script.py
         env:
@@ -147,8 +135,6 @@ GitHub Settings에서 GEMINI_API_KEY를 확인해주세요."""
           script: |
             const fs = require('fs');
             const review = fs.readFileSync('review_output.txt', 'utf8');
-            
-            const prNumber = context.payload.pull_request.number;
             const prInfo = context.payload.pull_request;
             
             const commentBody = `## 🤖 AI 코드 리뷰 완료!
@@ -166,17 +152,11 @@ ${review}
 
 </details>
 
-*🔮 Powered by Google Gemini 1.5 Flash | ⏱️ ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}*`;
+*🔮 Powered by Google Gemini 1.5 Flash*`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: prNumber,
+              issue_number: context.payload.pull_request.number,
               body: commentBody
             });
-
-      - name: Review Summary
-        if: always()
-        run: |
-          echo "✅ AI 코드 리뷰가 완료되었습니다!"
-          echo "PR 페이지에서 결과를 확인하세요."
