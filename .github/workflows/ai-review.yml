@@ -21,12 +21,12 @@ jobs:
         id: diff
         run: |
           git fetch origin ${{ github.base_ref }}
-          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' '*.py' '*.java' '*.go' '*.rb' '*.css' '*.scss' '*.html' '*.vue')
+          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' '*.py' '*.java' '*.go' '*.css' '*.html')
           DIFF_LIMITED=$(echo "$DIFF" | head -c 15000)
           {
-            echo "diff<<DIFF_EOF"
+            echo "diff<<EOF"
             echo "$DIFF_LIMITED"
-            echo "DIFF_EOF"
+            echo "EOF"
           } >> $GITHUB_OUTPUT
 
       - name: Setup Python
@@ -34,129 +34,105 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: AI Review with Gemini
-        id: review
-        run: |
-          pip install -q google-generativeai
-          
-          cat > review_script.py << 'ENDOFPYTHON'
-          import google.generativeai as genai
-          import os
-          import sys
-          
-          try:
-              genai.configure(api_key=os.environ['GEMINI_API_KEY'])
-              model = genai.GenerativeModel('gemini-1.5-flash')
-              
-              diff_text = os.environ.get('PR_DIFF', '')
-              
-              if not diff_text or diff_text.strip() == '':
-                  print("## 📝 변경사항 없음\n\n이 PR에는 리뷰할 코드 변경사항이 없습니다.")
-                  sys.exit(0)
-              
-              prompt = """당신은 시니어 소프트웨어 엔지니어입니다. 다음 Pull Request의 코드 변경사항을 리뷰해주세요.
+      - name: Install dependencies
+        run: pip install -q google-generativeai
 
-코드 변경사항 (git diff):
-""" + diff_text + """
-
-다음 형식으로 한국어로 작성해주세요:
-
-## 🔍 주요 발견사항
-- 버그 가능성이 있는 코드
-- 보안 취약점
-- 성능 이슈
-- 로직 오류
-
-(없으면 "발견된 주요 이슈 없음" 출력)
-
-## ✅ 잘 작성된 부분
-- 좋은 코딩 패턴
-- 명확한 네이밍
-- 적절한 에러 처리
-
-## 💡 개선 제안
-- 구체적인 개선 방법
-- 가능하면 코드 예시 포함
-- 리팩토링 아이디어
-
-## 📊 종합 평가
-점수: ⭐⭐⭐⭐⭐ (5점 만점)
-한 줄 코멘트
-
-주의사항:
-- 사소한 스타일 지적은 생략
-- 중요한 이슈에 집중
-- 건설적인 피드백 제공
-"""
-              
-              response = model.generate_content(
-                  prompt,
-                  generation_config={
-                      'temperature': 0.7,
-                      'top_p': 0.95,
-                      'max_output_tokens': 2048,
-                  }
-              )
-              
-              review_text = response.text
-              
-              with open('review_output.txt', 'w', encoding='utf-8') as f:
-                  f.write(review_text)
-              
-              print(review_text)
-              
-          except Exception as e:
-              error_msg = f"""## ⚠️ 리뷰 생성 실패
-
-오류가 발생했습니다: {str(e)}
-
-가능한 원인:
-- API 키 설정 오류
-- API 할당량 초과
-- 네트워크 문제
-
-GitHub Settings에서 GEMINI_API_KEY를 확인해주세요."""
-              
-              with open('review_output.txt', 'w', encoding='utf-8') as f:
-                  f.write(error_msg)
-              
-              print(error_msg)
-              sys.exit(1)
-          ENDOFPYTHON
-          
-          python review_script.py
+      - name: Run AI Review
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PR_DIFF: ${{ steps.diff.outputs.diff }}
+        run: |
+          python << 'EOF'
+          import google.generativeai as genai
+          import os
+          import sys
 
-      - name: Post Review Comment
+          try:
+              api_key = os.environ.get('GEMINI_API_KEY')
+              if not api_key:
+                  print("ERROR: GEMINI_API_KEY not found")
+                  sys.exit(1)
+
+              genai.configure(api_key=api_key)
+              model = genai.GenerativeModel('gemini-1.5-flash')
+              
+              diff_text = os.environ.get('PR_DIFF', '').strip()
+              
+              if not diff_text:
+                  result = "## 📝 변경사항 없음\n\n리뷰할 코드 변경사항이 없습니다."
+              else:
+                  prompt = f'''당신은 시니어 소프트웨어 엔지니어입니다.
+          다음 Pull Request의 코드 변경사항을 리뷰해주세요.
+
+          코드 변경사항:
+          {diff_text}
+
+          다음 형식으로 한국어로 작성해주세요:
+
+          ## 🔍 주요 발견사항
+          - 버그 가능성
+          - 보안 취약점
+          - 성능 이슈
+
+          ## ✅ 잘 작성된 부분
+          - 좋은 패턴과 코드
+
+          ## 💡 개선 제안
+          - 구체적인 제안
+
+          ## 📊 종합 평가
+          점수와 한 줄 평가
+
+          중요한 이슈에만 집중해주세요.'''
+
+                  response = model.generate_content(
+                      prompt,
+                      generation_config={'temperature': 0.7, 'max_output_tokens': 2048}
+                  )
+                  result = response.text
+
+              with open('review.txt', 'w', encoding='utf-8') as f:
+                  f.write(result)
+              
+              print("Review generated successfully")
+
+          except Exception as e:
+              error = f'''## ⚠️ 리뷰 실패
+
+          오류: {str(e)}
+
+          가능한 원인:
+          - API 키 오류
+          - API 할당량 초과
+          - 네트워크 문제'''
+              
+              with open('review.txt', 'w', encoding='utf-8') as f:
+                  f.write(error)
+              print(f"ERROR: {e}")
+              sys.exit(1)
+          EOF
+
+      - name: Post Review
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const review = fs.readFileSync('review_output.txt', 'utf8');
-            const prInfo = context.payload.pull_request;
+            const review = fs.readFileSync('review.txt', 'utf8');
+            const pr = context.payload.pull_request;
             
-            const commentBody = `## 🤖 AI 코드 리뷰 완료!
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: `## 🤖 AI 코드 리뷰
 
 ${review}
 
 ---
-<details>
-<summary>📈 PR 통계</summary>
+📊 **PR 통계**
+- 📝 파일: ${pr.changed_files}개
+- ➕ 추가: ${pr.additions}줄  
+- ➖ 삭제: ${pr.deletions}줄
 
-- 📝 변경된 파일: **${prInfo.changed_files}개**
-- ➕ 추가된 줄: **${prInfo.additions}줄**
-- ➖ 삭제된 줄: **${prInfo.deletions}줄**
-- 💬 커밋 수: **${prInfo.commits}개**
-
-</details>
-
-*🔮 Powered by Google Gemini 1.5 Flash*`;
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
-              body: commentBody
+*Powered by Google Gemini 1.5 Flash*`
             });
