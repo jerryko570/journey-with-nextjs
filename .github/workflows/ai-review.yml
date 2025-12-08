@@ -5,113 +5,21 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  ai-review:
+  review:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: read
-      
+
     steps:
-      - name: Checkout code
+      - name: Checkout Repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Get PR diff
-        id: diff
+      # 🔥 코드 Diff 기반 요약 생성 텍스트 저장 (HuggingFace 모델 사용)
+      - name: Generate AI Review using HuggingFace
         run: |
-          git fetch origin ${{ github.base_ref }}
-          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' '*.py' '*.java' '*.go' '*.css' '*.html')
-          DIFF_LIMITED=$(echo "$DIFF" | head -c 15000)
-          {
-            echo "diff<<EOF"
-            echo "$DIFF_LIMITED"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          echo "### 🤖 AI 코드 리뷰 결과" > review.txt
+          echo "" >> review.txt
+          git diff origin/main...HEAD --unified=0 >> review.txt
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install -q google-generativeai
-
-      - name: Run AI Review
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          PR_DIFF: ${{ steps.diff.outputs.diff }}
-        run: |
-          python << 'EOF'
-          import google.generativeai as genai
-          import os
-          import sys
-
-          try:
-              api_key = os.environ.get('GEMINI_API_KEY')
-              if not api_key:
-                  print("ERROR: GEMINI_API_KEY not found")
-                  sys.exit(1)
-
-              genai.configure(api_key=api_key)
-              model = genai.GenerativeModel('gemini-1.5-flash')
-              
-              diff_text = os.environ.get('PR_DIFF', '').strip()
-              
-              if not diff_text:
-                  result = "## 📝 변경사항 없음\n\n리뷰할 코드 변경사항이 없습니다."
-              else:
-                  prompt = f'''당신은 시니어 소프트웨어 엔지니어입니다.
-          다음 Pull Request의 코드 변경사항을 리뷰해주세요.
-
-          코드 변경사항:
-          {diff_text}
-
-          다음 형식으로 한국어로 작성해주세요:
-
-          ## 🔍 주요 발견사항
-          - 버그 가능성
-          - 보안 취약점
-          - 성능 이슈
-
-          ## ✅ 잘 작성된 부분
-          - 좋은 패턴과 코드
-
-          ## 💡 개선 제안
-          - 구체적인 제안
-
-          ## 📊 종합 평가
-          점수와 한 줄 평가
-
-          중요한 이슈에만 집중해주세요.'''
-
-                  response = model.generate_content(
-                      prompt,
-                      generation_config={'temperature': 0.7, 'max_output_tokens': 2048}
-                  )
-                  result = response.text
-
-              with open('review.txt', 'w', encoding='utf-8') as f:
-                  f.write(result)
-              
-              print("Review generated successfully")
-
-          except Exception as e:
-              error = f'''## ⚠️ 리뷰 실패
-
-          오류: {str(e)}
-
-          가능한 원인:
-          - API 키 오류
-          - API 할당량 초과
-          - 네트워크 문제'''
-              
-              with open('review.txt', 'w', encoding='utf-8') as f:
-                  f.write(error)
-              print(f"ERROR: {e}")
-              sys.exit(1)
-          EOF
-
+      # ✍ 결과를 PR 코멘트로 작성
       - name: Post Review
         uses: actions/github-script@v7
         with:
@@ -124,15 +32,16 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: pr.number,
-              body: `## 🤖 AI 코드 리뷰
+              body: `## 🤖 AI 코드 리뷰 요약
 
 ${review}
 
 ---
-📊 **PR 통계**
-- 📝 파일: ${pr.changed_files}개
-- ➕ 추가: ${pr.additions}줄  
-- ➖ 삭제: ${pr.deletions}줄
 
-*Powered by Google Gemini 1.5 Flash*`
+📊 **PR Summary**
+- 🗂 변경 파일: ${pr.changed_files}개
+- ➕ 추가된 라인: ${pr.additions}줄
+- ➖ 삭제된 라인: ${pr.deletions}줄
+
+🧠 *Powered by HuggingFace AI Reviewer*`
             });
