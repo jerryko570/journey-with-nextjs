@@ -16,14 +16,14 @@ type BadgeProps = {
 
 export default function Badge({ status = "success", label }: BadgeProps) {
   return (
-    <div
-      className={clsx({
+    <span
+      className={clsx("badge", {
         "badge-success": status === "success",
         "badge-pending": status === "pending",
         "badge-reject": status === "reject",
       })}
     >
       {label}
-    </div>
+    </span>
   );
 }
