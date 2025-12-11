@@ -1,10 +1,10 @@
-/*
- * 모달 팝업 컴포넌트
- * @param title - 타이틀 텍스트
- * @param btnText - 확인 버튼 텍스트 (오른쪽: primary)
- * @param cancelText - 취소 버튼 텍스트 (왼쪽: outline, 기본값: "취소")
- * @param children - 모달 본문 내용
- * @param type - 버튼 타입 ("one-btn" | "two-btn", 기본값: "one-btn")
+/**
+ * @param {Object} props - Modal 컴포넌트 props
+ * @param {string} props.title - 모달 타이틀 텍스트
+ * @param {string} props.btnText - 확인 버튼 텍스트 (오른쪽: primary 스타일)
+ * @param {string} [props.cancelText="취소"] - 취소 버튼 텍스트 (왼쪽: outline 스타일, 기본값: "취소")
+ * @param {React.ReactNode} props.children - 모달 본문 내용
+ * @param {("one-btn" | "two-btn")} [props.type="one-btn"] - 버튼 개수 (기본값: "one-btn")
  */
 
 import Button from "./Button";

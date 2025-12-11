@@ -1,10 +1,10 @@
-/*
+/**
  * 카드 컴포넌트
- * @param title - 타이틀
- * @param img - 카드 이미지
- * @param address - 상점 주소
- * @param hourlyPay - 상점 시급
- * @param children - 버튼에 표시될 텍스트/요소
+ * @param {Object} props - Card 컴포넌트 props
+ * @param {("sm" | "md" | "lg")} [props.size="lg"] - 카드 크기 (기본값: lg)
+ * @param {string} props.address - 상점 주소
+ * @param {number} props.hourlyPay - 상점 시급
+ * @param {React.ReactNode} [props.children] - 카드에 표시될 추가 내용 (선택사항)
  */
 
 "use client";

@@ -1,8 +1,8 @@
-/*
- * Dropdown 컴포넌트
- * items: Dropdown 아이템 목록 (기본값: ["item1", "item2", "item3"])
- * placeholder: 기본 표시 텍스트 (기본값: "item을 선택해주세요")
- * status: 활성화/비활성화 상태 (기본값: "default")
+/**
+ * @param {Object} props - Dropdown 컴포넌트 props
+ * @param {string[]} [props.items=["item1", "item2", "item3"]] - Dropdown 아이템 목록 (기본값: ["item1", "item2", "item3"])
+ * @param {string} [props.placeholder="item을 선택해주세요"] - 기본 표시 텍스트 (기본값: "item을 선택해주세요")
+ * @param {("default" | "disabled")} [props.status="default"] - 활성화/비활성화 상태 (기본값: "default")
  */
 
 "use client";
