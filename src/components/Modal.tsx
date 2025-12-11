@@ -35,7 +35,7 @@ export default function Modal({
           {/* 버튼 영역 */}
           {type === "one-btn" ? (
             <div className="one-btn">
-              <Button variant="primary" size="md" className="w-full">
+              <Button variant="primary" size="md" fullWidth>
                 {" "}
                 {btnText}{" "}
               </Button>
