@@ -9,6 +9,7 @@
 
 import Image from "next/image";
 import ArrowCloseIcon from "../assets/arrow-close.svg";
+import "./Dropdown.css";
 
 /* 드롭다운 Props 타입 정의 */
 type DropdownProps = {

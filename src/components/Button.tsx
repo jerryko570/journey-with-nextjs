@@ -6,21 +6,34 @@
  */
 
 import "./Button.css";
+import clsx from "clsx";
 
 /* 버튼 컴포넌트 Props 타입 정의 */
 type ButtonProps = {
   variant?: "primary" | "outline" | "disabled";
   size?: "sm" | "md" | "lg";
   children: React.ReactNode;
+  className?: string;
+  fullWidth?: boolean;
 };
 
 export default function Button({
   variant = "primary",
   size = "lg",
   children,
+  className,
+  fullWidth = false,
 }: ButtonProps) {
   return (
-    <button className={`btn btn-${variant} btn-${size} w-full`}>
+    <button
+      className={clsx(
+        "btn",
+        `btn-${variant}`,
+        `btn-${size}`,
+        fullWidth && "w-full",
+        className,
+      )}
+    >
       {children}
     </button>
   );
