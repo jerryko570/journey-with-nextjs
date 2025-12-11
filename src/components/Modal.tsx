@@ -1,0 +1,59 @@
+/*
+ * 모달 팝업 컴포넌트
+ * @param title - 타이틀 텍스트
+ * @param btnText - 확인 버튼 텍스트 (오른쪽: primary)
+ * @param cancelText - 취소 버튼 텍스트 (왼쪽: outline, 기본값: "취소")
+ * @param children - 모달 본문 내용
+ * @param type - 버튼 타입 ("one-btn" | "two-btn", 기본값: "one-btn")
+ */
+
+import Button from "./Button";
+import "./Modal.css";
+
+type ModalProps = {
+  title: string;
+  btnText: string;
+  cancelText?: string;
+  children?: React.ReactNode;
+  type?: "one-btn" | "two-btn";
+};
+
+export default function Modal({
+  title,
+  btnText,
+  cancelText = "취소",
+  children,
+  type = "one-btn",
+}: ModalProps) {
+  return (
+    <div className="modal-dim">
+      <div className="modal-container">
+        <div className="modal-content">
+          <p className="modal-title">{title}</p>
+          {children}
+
+          {/* 버튼 영역 */}
+          {type === "one-btn" ? (
+            <div className="one-btn">
+              <Button variant="primary" size="md" fullWidth>
+                {" "}
+                {btnText}{" "}
+              </Button>
+            </div>
+          ) : (
+            <div className="two-btn">
+              <Button variant="outline" size="md" className="flex-1">
+                {" "}
+                {cancelText}{" "}
+              </Button>
+              <Button variant="primary" size="md" className="flex-1">
+                {" "}
+                {btnText}{" "}
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
