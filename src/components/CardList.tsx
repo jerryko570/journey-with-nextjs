@@ -1,6 +1,12 @@
 import Card from "./Card";
 import "./CardList.css";
 
+/**
+ * @param {Object} props - CardList 컴포넌트 props
+ * @param {CardData[]} [props.cards=defaultCardData] - 표시할 카드 데이터 배열 (기본값: defaultCardData)
+ * @param {("sm" | "md" | "lg")} [props.cardSize="lg"] - 카드 크기 (기본값: "lg")
+ */
+
 /* 카드 데이터 타입 정의 */
 type CardData = {
   id: number;

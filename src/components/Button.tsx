@@ -1,8 +1,10 @@
-/*
- * 버튼 컴포넌트
- * @param variant - 버튼 스타일 (기본값: primary)
- * @param size - 버튼 크기 (기본값: lg)
- * @param children - 버튼에 표시될 텍스트/요소
+/**
+ * Button 컴포넌트 설명
+ *
+ * @param {Object} props - Button 컴포넌트 props
+ * @param {("primary" | "secondary" | "tertiary")} [props.variant="primary"] - 버튼 스타일 (기본값: primary)
+ * @param {("sm" | "md" | "lg")} [props.size="lg"] - 버튼 크기 (기본값: lg)
+ * @param {React.ReactNode} props.children - 버튼에 표시될 텍스트/요소
  */
 
 import "./Button.css";

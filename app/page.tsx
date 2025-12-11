@@ -1,15 +1,14 @@
-import Modal from "@/src/components/Modal";
+import Badge from "@/src/components/Badge";
 
 export default function Home() {
   return (
     <main className="space-y-3">
       <h1>TEST</h1>
-      <Modal
-        title="회원가입 완료"
-        btnText="완료"
-        cancelText="취소"
-        type="one-btn"
-      ></Modal>
+      <div className="flex items-center gap-2">
+        <Badge status="success" label="승인완료" />
+        <Badge status="pending" label="대기중" />
+        <Badge status="reject" label="승인거절" />
+      </div>
     </main>
   );
 }

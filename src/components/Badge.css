@@ -1,0 +1,26 @@
+
+
+.badge-success {
+    background-color: var(--color-blue-10);
+    color: var(--color-blue-20);
+    display: inline-block;
+    height: 100%;
+    padding: 4px 14px;
+    border-radius: 9999px;
+}
+
+.badge-pending {
+    background-color: var(--color-green-10);
+    color: var(--color-green-20);
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 9999px;
+}
+
+.badge-reject {
+    background-color: var(--color-red-10);
+    color: var(--color-red-20);
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 9999px;
+}
