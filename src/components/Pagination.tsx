@@ -23,7 +23,6 @@ export default function Pagination({
   onPageChange,
 }: PaginationProps) {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-  console.log(pageNumbers);
 
   return (
     <div className="pagination-container">
@@ -37,13 +36,14 @@ export default function Pagination({
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        <Image src={PrevArrow} alt="이전" />
+        <Image src={PrevArrow} alt="이전" width={20} height={20} />
       </button>
 
       {/* 페이지 번호 목록 */}
       {pageNumbers.map((pageNumber) => (
-        <div
+        <button
           key={pageNumber}
+          type="button"
           onClick={() => onPageChange(pageNumber)}
           className={clsx(
             "pagination-item",
@@ -51,7 +51,7 @@ export default function Pagination({
           )}
         >
           {pageNumber}
-        </div>
+        </button>
       ))}
 
       {/* 다음 페이지 버튼 */}
@@ -64,7 +64,7 @@ export default function Pagination({
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        <Image src={NextArrow} alt="다음" />
+        <Image src={NextArrow} alt="다음" width={20} height={20} />
       </button>
     </div>
   );
